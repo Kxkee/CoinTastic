@@ -1,7 +1,24 @@
-export default function Home() {
-  return (
-    <main className="h-screen w-screen bg-[#1C1A1A] px-12 pt-5">
+import SearchBar from "@/components/searchBar";
+import Crypto from "@/components/Crypto";
+import axios from "axios";
+import CryptoLoading from "@/components/CryptoLoading";
+import CoinList from "@/components/CoinList";
+export default async function Home() {
 
-    </main>
+    const coinList = async() => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/cryptos');
+            console.log('called')
+            return response.data
+        }catch(err) {
+            console.log(err);
+        }
+    }
+    const list = await coinList();
+    console.log(list.data.length)
+  return (
+    <div className="w-full bg-[#1A1717] rounded-lg shadow-md py-5 px-7 flex flex-col">
+        <CoinList list={list} />
+    </div>
   )
 }
