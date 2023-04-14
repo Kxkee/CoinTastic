@@ -15,7 +15,7 @@ export default async function Home() {
         }
     }
     const list = await coinList();
-    console.log(list.data.length)
+    console.log(list);
   return (
     <div className="w-full bg-[#1A1717] rounded-lg shadow-md py-5 px-7 flex flex-col">
         <CoinList list={list} />

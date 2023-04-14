@@ -41,7 +41,7 @@ export default function Form({isToggle, setIsToggle}: formProps) {
                         </div>
                         <div className="space-y-2 p-10 mt-3 text-[15.5px] leading-relaxed text-gray-500">
                             {selectedItem === 0 ? (
-                                <Login />
+                                <Login setIsToggle={setIsToggle} />
                             ) : (
                                 <Register />
                             )}

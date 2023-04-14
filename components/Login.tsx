@@ -1,23 +1,71 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {signIn} from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
-export default function Login() {
+import 'react-toastify/dist/ReactToastify.css';
+
+type props = {
+    setIsToggle: (state: boolean) => void;
+}
+export default function Login({setIsToggle}: props) {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const notify = () => toast("Successfully connected !");
+    useEffect(() => {
+        toast.error('Oops there was a problem...', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    }, [])
 
     const login = async() => {
         try {
-            await signIn('credentials', {
+            setIsToggle(false);
+            const user = await signIn('credentials', {
                     email,
                     password,
                     redirect: false,
-                    callbackUrl: '/',
                 })
+            if(user?.error) {
+                toast.error('Oops there was a problem...', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+            toast.success('Successfully logged in !', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
 
         }catch(err) {
+            toast.error('Oops there was a problem...', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
             console.log(err);
         }
     }
@@ -88,6 +136,18 @@ export default function Login() {
                 </svg>
                 Continue with Google
             </button>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     )
 }
